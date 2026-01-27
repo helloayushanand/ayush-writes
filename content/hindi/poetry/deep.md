@@ -5,7 +5,6 @@ slug: "deep"
 context: "Covid year Diwali"
 ---
 
-Context - Covid year Diwali
 
 इस बार घर में एक भी दीप नही जला।
 तीन कारण थे
@@ -65,4 +64,3 @@ Context - Covid year Diwali
 और तीसरा कि घर पर कोई नही था।
 
 आयुष
-04/11/21

@@ -34,7 +34,13 @@ export function getPieces(category: 'hindi/poetry' | 'hindi/prose' | 'english/po
         };
     });
 
-    return pieces.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    return pieces.sort((a, b) => {
+        const dateA = new Date(a.date).getTime();
+        const dateB = new Date(b.date).getTime();
+        if (isNaN(dateA)) return 1;
+        if (isNaN(dateB)) return -1;
+        return dateB - dateA;
+    });
 }
 
 export function getPiece(category: string, slug: string): Piece | null {

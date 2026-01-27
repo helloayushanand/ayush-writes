@@ -13,5 +13,3 @@ Grief stays. Watching you. Holding you in its arms. Gently patting your head. Le
 So you lie your head in its lap. Smiling wide. Holding its big fingers with your tiny hands. Sucking on your thumb just like a baby. Taking deep calm breaths. You, a cocoon, then finally for the first time, sleep peacefully.
 
 Ayush
-
-04/08/25
