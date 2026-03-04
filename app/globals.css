@@ -16,6 +16,396 @@ body {
   color: var(--text-primary);
 }
 
+/* ─── Ambient Background Canvas ─────────────────────────────────────────── */
+
+.bg-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Grain texture overlay */
+.bg-canvas::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+}
+
+/* Blob base styles */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  will-change: transform, opacity;
+}
+
+/* Individual blob colours, sizes & delays */
+.blob-1 {
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(circle, rgba(140, 90, 40, 0.55) 0%, transparent 70%);
+  top: -10%;
+  left: -12%;
+  animation: drift-1 28s infinite alternate ease-in-out;
+}
+
+.blob-2 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(40, 70, 150, 0.45) 0%, transparent 70%);
+  top: 30%;
+  right: -10%;
+  animation: drift-2 34s infinite alternate ease-in-out;
+}
+
+.blob-3 {
+  width: 460px;
+  height: 460px;
+  background: radial-gradient(circle, rgba(30, 100, 60, 0.4) 0%, transparent 70%);
+  bottom: -5%;
+  left: 20%;
+  animation: drift-3 40s infinite alternate ease-in-out;
+}
+
+.blob-4 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(100, 50, 130, 0.4) 0%, transparent 70%);
+  top: 55%;
+  left: -8%;
+  animation: drift-4 24s infinite alternate ease-in-out;
+}
+
+/* Drift keyframes — each blob moves on a slightly different path */
+@keyframes drift-1 {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+    opacity: 1;
+  }
+
+  33% {
+    transform: translate(60px, 80px) scale(1.05);
+    opacity: 0.85;
+  }
+
+  66% {
+    transform: translate(30px, 140px) scale(0.97);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(90px, 60px) scale(1.08);
+    opacity: 0.9;
+  }
+}
+
+@keyframes drift-2 {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+    opacity: 0.9;
+  }
+
+  33% {
+    transform: translate(-70px, 50px) scale(1.03);
+    opacity: 1;
+  }
+
+  66% {
+    transform: translate(-40px, 110px) scale(0.95);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translate(-100px, 30px) scale(1.06);
+    opacity: 0.95;
+  }
+}
+
+@keyframes drift-3 {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+    opacity: 0.85;
+  }
+
+  33% {
+    transform: translate(50px, -60px) scale(1.04);
+    opacity: 1;
+  }
+
+  66% {
+    transform: translate(-30px, -90px) scale(0.98);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translate(80px, -40px) scale(1.07);
+    opacity: 0.9;
+  }
+}
+
+@keyframes drift-4 {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+    opacity: 0.8;
+  }
+
+  33% {
+    transform: translate(40px, -70px) scale(1.06);
+    opacity: 1;
+  }
+
+  66% {
+    transform: translate(90px, -30px) scale(0.96);
+    opacity: 0.85;
+  }
+
+  100% {
+    transform: translate(20px, -100px) scale(1.1);
+    opacity: 0.95;
+  }
+}
+
+/* Everything else sits above the bg-canvas */
+main {
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── Floating Literary Particles (Emoji) ────────────────────────────────── */
+
+.particle {
+  position: absolute;
+  font-style: normal;
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: rise linear infinite;
+  /* Ghost-like: desaturated and dim */
+  filter: grayscale(0.3) opacity(0.5);
+}
+
+/* Three drift paths for variety */
+@keyframes rise {
+  0% {
+    transform: translateY(105vh) translateX(0px) rotate(0deg);
+    opacity: 0;
+  }
+
+  8% {
+    opacity: 0.65;
+  }
+
+  45% {
+    transform: translateY(52vh) translateX(18px) rotate(8deg);
+    opacity: 0.5;
+  }
+
+  92% {
+    opacity: 0.2;
+  }
+
+  100% {
+    transform: translateY(-8vh) translateX(-12px) rotate(-4deg);
+    opacity: 0;
+  }
+}
+
+@keyframes rise-b {
+  0% {
+    transform: translateY(105vh) translateX(0px) rotate(0deg);
+    opacity: 0;
+  }
+
+  8% {
+    opacity: 0.55;
+  }
+
+  40% {
+    transform: translateY(55vh) translateX(-22px) rotate(-10deg);
+    opacity: 0.45;
+  }
+
+  92% {
+    opacity: 0.15;
+  }
+
+  100% {
+    transform: translateY(-8vh) translateX(14px) rotate(5deg);
+    opacity: 0;
+  }
+}
+
+@keyframes rise-c {
+  0% {
+    transform: translateY(105vh) translateX(0px) rotate(0deg);
+    opacity: 0;
+  }
+
+  8% {
+    opacity: 0.6;
+  }
+
+  50% {
+    transform: translateY(50vh) translateX(28px) rotate(15deg);
+    opacity: 0.4;
+  }
+
+  92% {
+    opacity: 0.18;
+  }
+
+  100% {
+    transform: translateY(-8vh) translateX(-18px) rotate(-8deg);
+    opacity: 0;
+  }
+}
+
+/* 17 literary particles — emoji, spread across the screen */
+.p1 {
+  font-size: 17px;
+  left: 5%;
+  animation-duration: 31s;
+  animation-delay: 4s;
+  animation-name: rise;
+}
+
+.p2 {
+  font-size: 15px;
+  left: 12%;
+  animation-duration: 19s;
+  animation-delay: 13s;
+  animation-name: rise-b;
+}
+
+.p3 {
+  font-size: 20px;
+  left: 20%;
+  animation-duration: 26s;
+  animation-delay: 1s;
+  animation-name: rise-c;
+}
+
+.p4 {
+  font-size: 14px;
+  left: 29%;
+  animation-duration: 37s;
+  animation-delay: 8s;
+  animation-name: rise;
+}
+
+.p5 {
+  font-size: 21px;
+  left: 38%;
+  animation-duration: 22s;
+  animation-delay: 17s;
+  animation-name: rise-b;
+}
+
+.p6 {
+  font-size: 15px;
+  left: 46%;
+  animation-duration: 29s;
+  animation-delay: 3s;
+  animation-name: rise-c;
+}
+
+.p7 {
+  font-size: 18px;
+  left: 54%;
+  animation-duration: 16s;
+  animation-delay: 11s;
+  animation-name: rise;
+}
+
+.p8 {
+  font-size: 19px;
+  left: 62%;
+  animation-duration: 41s;
+  animation-delay: 6s;
+  animation-name: rise-b;
+}
+
+.p9 {
+  font-size: 14px;
+  left: 70%;
+  animation-duration: 24s;
+  animation-delay: 19s;
+  animation-name: rise-c;
+}
+
+.p10 {
+  font-size: 21px;
+  left: 78%;
+  animation-duration: 33s;
+  animation-delay: 0s;
+  animation-name: rise;
+}
+
+.p11 {
+  font-size: 15px;
+  left: 85%;
+  animation-duration: 18s;
+  animation-delay: 9s;
+  animation-name: rise-b;
+}
+
+.p12 {
+  font-size: 17px;
+  left: 92%;
+  animation-duration: 28s;
+  animation-delay: 14s;
+  animation-name: rise-c;
+}
+
+.p13 {
+  font-size: 16px;
+  left: 16%;
+  animation-duration: 35s;
+  animation-delay: 2s;
+  animation-name: rise;
+}
+
+.p14 {
+  font-size: 18px;
+  left: 43%;
+  animation-duration: 21s;
+  animation-delay: 16s;
+  animation-name: rise-b;
+}
+
+.p15 {
+  font-size: 19px;
+  left: 67%;
+  animation-duration: 44s;
+  animation-delay: 5s;
+  animation-name: rise-c;
+}
+
+.p16 {
+  font-size: 14px;
+  left: 82%;
+  animation-duration: 27s;
+  animation-delay: 10s;
+  animation-name: rise;
+}
+
+.p18 {
+  font-size: 20px;
+  left: 58%;
+  animation-duration: 38s;
+  animation-delay: 7s;
+  animation-name: rise-c;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+
+
 h1 {
   font-size: 2.5rem;
   font-weight: 700;
