@@ -19,9 +19,9 @@ In inception, di caprio warned the designer to not go to that floor again and ag
 
 But i wonder, how long can human cells store an imprint? The cells change every 7 years, they say. We definitely do not have a hard drive in our brain. 3 year old me did not have that atleast. I wonder people remember things only by the replays of things in their head. And they are bound to lose details or mix  them up every time they replay it. Every time they say it. Or articulate it. Cells die. Humans die. Perception memory dies too. Stories remain for longer. Stories remain out there. Circulating in our brains, on paper, in conversations, in poems or in pain. Stories remain. Perhaps the behaviour of changing the memories into a story is only because we are desperate to live longer with them. To keep the imprint a little longer. To keep that moment alive. 
 
-This desperation is what makes us human. The desperation is what is beautiful. The event that is being relived right now might be untrue. But what if the goal was not to remember the event, but rather to remember the love, the want, the urge and desperation to remember it a little longer, the urge to keep it with you so that you can revisit it and get a chance to love again, or to get a chance to lament the loss of not being able to love again. Ever.
+This desperation is what makes us human. The desperation is what is beautiful. The event that is being relived right now might be untrue. But what if the goal was not to remember the event, but rather to remember the love, the want, to remember the urge and desperation to remember it for a little longer, the urge to keep it with you so that you can revisit it and get a chance to love again. Or to get a chance to lament the loss of not being able to love again. Ever.
 
-I wish I remembered the correct and most accurate version of what that 3 year old boy felt and saw. But I am happy that I at least carried some of it with me even 2 decades later. I wish i carry it for longer. A little less accurate, but for a little longer. 
+I wish I remembered the correct and the most accurate version of what that child had felt and saw. But I am happy that I have at least carried some of it with me, even 2 decades later. I wish i carry it for longer. A little less accurate, but for a little longer.
 
 Ayush
 
