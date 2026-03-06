@@ -22,7 +22,7 @@ export default function BlogsPage() {
                         href={`/blogs/${post.slug}`}
                         className="index-item block"
                     >
-                        <span className="mr-2">📄</span>{post.title}
+                        <span className="mr-2">✦</span>{post.title}
                     </Link>
                 ))}
                 {posts.length > 0 && (

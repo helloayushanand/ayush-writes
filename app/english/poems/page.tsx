@@ -20,7 +20,7 @@ export default function EnglishPoemsPage() {
                         href={`/english/poems/${poem.slug}`}
                         className="index-item block"
                     >
-                        <span className="mr-2">📄</span>{poem.title}
+                        <span className="mr-2">🌙</span>{poem.title}
                     </Link>
                 ))}
                 {poems.length > 0 && (

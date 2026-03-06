@@ -22,7 +22,7 @@ export default function HindiPoetryPage() {
                         href={`/hindi/poetry/${poem.slug}`}
                         className="index-item block"
                     >
-                        <span className="mr-2">📄</span>{poem.title}
+                        <span className="mr-2">🌸</span>{poem.title}
                     </Link>
                 ))}
                 {poems.length > 0 && (

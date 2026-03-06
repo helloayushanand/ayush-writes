@@ -22,7 +22,7 @@ export default function HindiProsePage() {
                         href={`/hindi/prose/${piece.slug}`}
                         className="index-item block"
                     >
-                        <span className="mr-2">📄</span>{piece.title}
+                        <span className="mr-2">🌊</span>{piece.title}
                     </Link>
                 ))}
             </div>

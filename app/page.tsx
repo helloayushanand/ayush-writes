@@ -9,16 +9,16 @@ export default function Home() {
         {/* Hindi Card */}
         <div className="category-card">
           <div className="category-title">
-            <span>✍️</span>
+            <span>🪔</span>
             <span>हिंदी</span>
           </div>
           <p className="category-desc">Poetry and prose in Hindi</p>
           <div className="space-y-1">
             <Link href="/hindi/poetry" className="link-item">
-              <span>📄</span> काव्य
+              <span>🌸</span> काव्य
             </Link>
             <Link href="/hindi/prose" className="link-item">
-              <span>📄</span> गद्य
+              <span>🌊</span> गद्य
             </Link>
           </div>
         </div>
@@ -26,16 +26,16 @@ export default function Home() {
         {/* English Card */}
         <div className="category-card blue">
           <div className="category-title">
-            <span>📘</span>
+            <span>🪶</span>
             <span>English</span>
           </div>
           <p className="category-desc">Poems and short prose</p>
           <div className="space-y-1">
             <Link href="/english/poems" className="link-item">
-              <span>📄</span> Poems
+              <span>🌙</span> Poems
             </Link>
             <Link href="/english/prose" className="link-item">
-              <span>📄</span> Prose
+              <span>🍂</span> Prose
             </Link>
           </div>
         </div>
@@ -43,12 +43,12 @@ export default function Home() {
         {/* Blogs Card */}
         <Link href="/blogs" className="category-card green block">
           <div className="category-title">
-            <span>📝</span>
+            <span>💭</span>
             <span>Blogs</span>
           </div>
           <p className="category-desc">Occasional reflections</p>
           <div className="space-y-1">
-            <span className="link-item"><span>📄</span> Literary</span>
+            <span className="link-item"><span>✦</span> Essays & Reviews</span>
           </div>
         </Link>
       </div>
