@@ -41,14 +41,16 @@ export default function Home() {
         </div>
 
         {/* Blogs Card */}
-        <div className="category-card green">
+        <Link href="/blogs" className="category-card green block">
           <div className="category-title">
             <span>📝</span>
             <span>Blogs</span>
           </div>
           <p className="category-desc">Occasional reflections</p>
-          <p className="text-sm text-gray-400 mt-2">• Coming soon (hopefully)</p>
-        </div>
+          <div className="space-y-1">
+            <span className="link-item"><span>📄</span> Literary</span>
+          </div>
+        </Link>
       </div>
 
       <div className="intro-section">

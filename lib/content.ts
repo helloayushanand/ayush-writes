@@ -10,7 +10,7 @@ export interface Piece {
     content: string;
 }
 
-export function getPieces(category: 'hindi/poetry' | 'hindi/prose' | 'english/poems' | 'english/prose'): Piece[] {
+export function getPieces(category: 'hindi/poetry' | 'hindi/prose' | 'english/poems' | 'english/prose' | 'blogs'): Piece[] {
     const contentDir = path.join(process.cwd(), 'content', category);
 
     if (!fs.existsSync(contentDir)) {
