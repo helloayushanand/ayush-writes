@@ -48,7 +48,7 @@ export default function Home() {
           </div>
           <p className="category-desc">Occasional reflections</p>
           <div className="space-y-1">
-            <span className="link-item"><span>✦</span> Essays & Reviews</span>
+            <span className="link-item"><span>✦</span> Literary</span>
           </div>
         </Link>
       </div>
