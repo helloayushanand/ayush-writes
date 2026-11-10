@@ -153,6 +153,65 @@ export async function publish(data: {
   return { success: true };
 }
 
+export async function deletePost(
+  category: string,
+  slug: string
+): Promise<{ success: boolean; error?: string }> {
+  if (!(await isAuthenticated())) {
+    return { success: false, error: 'Not authenticated' };
+  }
+
+  const owner = process.env.GITHUB_OWNER;
+  const repo = process.env.GITHUB_REPO;
+  const token = process.env.GITHUB_TOKEN;
+
+  if (!owner || !repo || !token) {
+    return { success: false, error: 'GitHub configuration missing' };
+  }
+
+  const filePath = `content/${category}/${slug}.md`;
+
+  const checkRes = await fetch(
+    `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/vnd.github.v3+json',
+      },
+    }
+  );
+
+  if (!checkRes.ok) {
+    return { success: false, error: 'Post not found' };
+  }
+
+  const existing = await checkRes.json();
+
+  const res = await fetch(
+    `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`,
+    {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        message: `delete: ${slug}`,
+        sha: existing.sha,
+        branch: 'main',
+      }),
+    }
+  );
+
+  if (!res.ok) {
+    const err = await res.json();
+    return { success: false, error: err.message || 'GitHub API error' };
+  }
+
+  return { success: true };
+}
+
 export async function getPublished(): Promise<
   { category: string; label: string; pieces: { slug: string; title: string; date: string }[] }[]
 > {

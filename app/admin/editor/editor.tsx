@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { publish, logout, getPublished, getPublishedPiece } from '../actions';
+import { publish, logout, getPublished, getPublishedPiece, deletePost } from '../actions';
 
 interface Draft {
   id: string;
@@ -70,6 +70,7 @@ export default function Editor() {
   const [slugManual, setSlugManual] = useState(false);
 
   const [publishing, setPublishing] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [message, setMessage] = useState<{
     type: 'success' | 'error';
@@ -226,6 +227,26 @@ export default function Editor() {
     }
 
     setPublishing(false);
+  }
+
+  async function handleDelete() {
+    if (!isEditing || !slug.trim()) return;
+    if (!confirm(`Delete "${title || slug}" permanently?`)) return;
+
+    setDeleting(true);
+    setMessage(null);
+
+    const result = await deletePost(category, slug.trim());
+
+    if (result.success) {
+      clearForm();
+      setMessage({ type: 'success', text: 'Deleted. Site will redeploy shortly.' });
+      getPublished().then(setPublished);
+    } else {
+      setMessage({ type: 'error', text: result.error || 'Delete failed' });
+    }
+
+    setDeleting(false);
   }
 
   async function handleLogout() {
@@ -411,6 +432,15 @@ export default function Editor() {
           )}
 
           <div className="admin-actions">
+            {isEditing && (
+              <button
+                onClick={handleDelete}
+                className="admin-btn-danger"
+                disabled={deleting}
+              >
+                {deleting ? 'Deleting...' : 'Delete'}
+              </button>
+            )}
             <button onClick={handleSaveDraft} className="admin-btn-secondary">
               Save Draft
             </button>
