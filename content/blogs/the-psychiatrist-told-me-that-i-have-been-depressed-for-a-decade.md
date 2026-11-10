@@ -1,6 +1,6 @@
 ---
 title: "The psychiatrist told me that i have been depressed for a decade"
-date: "2026-11-10"
+date: "2026-10-12"
 slug: "the-psychiatrist-told-me-that-i-have-been-depressed-for-a-decade"
 ---
 
