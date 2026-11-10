@@ -149,5 +149,10 @@ export async function publish(data: {
     return { success: false, error: err.message || 'GitHub API error' };
   }
 
+  const deployHook = process.env.VERCEL_DEPLOY_HOOK;
+  if (deployHook) {
+    await fetch(deployHook, { method: 'POST' }).catch(() => {});
+  }
+
   return { success: true };
 }
