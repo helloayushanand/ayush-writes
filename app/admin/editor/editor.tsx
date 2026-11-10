@@ -72,6 +72,8 @@ export default function Editor() {
   const [publishing, setPublishing] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [originalCategory, setOriginalCategory] = useState<string | null>(null);
+  const [originalSlug, setOriginalSlug] = useState<string | null>(null);
   const [message, setMessage] = useState<{
     type: 'success' | 'error';
     text: string;
@@ -118,11 +120,13 @@ export default function Editor() {
     setContent('');
     setSlugManual(false);
     setIsEditing(false);
+    setOriginalCategory(null);
+    setOriginalSlug(null);
     setMessage(null);
   }
 
-  async function handleLoadPublished(cat: string, slug: string) {
-    const piece = await getPublishedPiece(cat, slug);
+  async function handleLoadPublished(cat: string, pieceSlug: string) {
+    const piece = await getPublishedPiece(cat, pieceSlug);
     if (!piece) {
       setMessage({ type: 'error', text: 'Could not load piece' });
       return;
@@ -136,6 +140,8 @@ export default function Editor() {
     setContent(piece.content);
     setSlugManual(true);
     setIsEditing(true);
+    setOriginalCategory(cat);
+    setOriginalSlug(piece.slug);
     setMessage(null);
   }
 
@@ -212,15 +218,28 @@ export default function Editor() {
     });
 
     if (result.success) {
+      const movedFile =
+        isEditing &&
+        originalCategory &&
+        originalSlug &&
+        (originalCategory !== category || originalSlug !== slug.trim());
+
+      if (movedFile) {
+        await deletePost(originalCategory, originalSlug);
+      }
+
       if (activeDraftId) {
         const updated = drafts.filter((d) => d.id !== activeDraftId);
         setDrafts(updated);
         persistDrafts(updated);
       }
       clearForm();
+      getPublished().then(setPublished);
       setMessage({
         type: 'success',
-        text: 'Published! Site will redeploy in ~30s.',
+        text: movedFile
+          ? 'Updated & moved! Site will redeploy in ~30s.'
+          : 'Published! Site will redeploy in ~30s.',
       });
     } else {
       setMessage({ type: 'error', text: result.error || 'Publish failed' });
