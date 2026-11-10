@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { publish, logout } from '../actions';
+import { publish, logout, getPublished, getPublishedPiece } from '../actions';
 
 interface Draft {
   id: string;
@@ -70,13 +70,21 @@ export default function Editor() {
   const [slugManual, setSlugManual] = useState(false);
 
   const [publishing, setPublishing] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [message, setMessage] = useState<{
     type: 'success' | 'error';
     text: string;
   } | null>(null);
 
+  const [sidebarTab, setSidebarTab] = useState<'drafts' | 'published'>('drafts');
+  const [published, setPublished] = useState<
+    { category: string; label: string; pieces: { slug: string; title: string; date: string }[] }[]
+  >([]);
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+
   useEffect(() => {
     setDrafts(loadDrafts());
+    getPublished().then(setPublished);
   }, []);
 
   useEffect(() => {
@@ -108,6 +116,25 @@ export default function Editor() {
     setContext('');
     setContent('');
     setSlugManual(false);
+    setIsEditing(false);
+    setMessage(null);
+  }
+
+  async function handleLoadPublished(cat: string, slug: string) {
+    const piece = await getPublishedPiece(cat, slug);
+    if (!piece) {
+      setMessage({ type: 'error', text: 'Could not load piece' });
+      return;
+    }
+    setActiveDraftId(null);
+    setCategory(cat);
+    setTitle(piece.title);
+    setSlug(piece.slug);
+    setDate(piece.date);
+    setContext(piece.context || '');
+    setContent(piece.content);
+    setSlugManual(true);
+    setIsEditing(true);
     setMessage(null);
   }
 
@@ -220,43 +247,97 @@ export default function Editor() {
       <div className="admin-layout">
         <aside className="admin-sidebar">
           <div className="admin-sidebar-header">
-            <h2>Drafts</h2>
+            <div className="admin-tabs">
+              <button
+                className={`admin-tab ${sidebarTab === 'drafts' ? 'active' : ''}`}
+                onClick={() => setSidebarTab('drafts')}
+              >
+                Drafts
+              </button>
+              <button
+                className={`admin-tab ${sidebarTab === 'published' ? 'active' : ''}`}
+                onClick={() => setSidebarTab('published')}
+              >
+                Published
+              </button>
+            </div>
             <button onClick={clearForm} className="admin-btn-small">
               + New
             </button>
           </div>
-          {drafts.length === 0 ? (
-            <p className="admin-muted">No drafts yet</p>
-          ) : (
-            <ul className="admin-draft-list">
-              {drafts.map((draft) => (
-                <li
-                  key={draft.id}
-                  className={`admin-draft-item ${activeDraftId === draft.id ? 'active' : ''}`}
-                >
+
+          {sidebarTab === 'drafts' && (
+            <>
+              {drafts.length === 0 ? (
+                <p className="admin-muted">No drafts yet</p>
+              ) : (
+                <ul className="admin-draft-list">
+                  {drafts.map((draft) => (
+                    <li
+                      key={draft.id}
+                      className={`admin-draft-item ${activeDraftId === draft.id ? 'active' : ''}`}
+                    >
+                      <button
+                        onClick={() => handleLoadDraft(draft)}
+                        className="admin-draft-btn"
+                      >
+                        <span className="admin-draft-title">
+                          {draft.title || 'Untitled'}
+                        </span>
+                        <span className="admin-draft-meta">
+                          {CATEGORIES.find((c) => c.value === draft.category)?.label}
+                          {' · '}
+                          {new Date(draft.updatedAt).toLocaleDateString()}
+                        </span>
+                      </button>
+                      <button
+                        onClick={() => handleDeleteDraft(draft.id)}
+                        className="admin-draft-delete"
+                        title="Delete draft"
+                      >
+                        ×
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </>
+          )}
+
+          {sidebarTab === 'published' && (
+            <div className="admin-published-list">
+              {published.map((group) => (
+                <div key={group.category} className="admin-published-group">
                   <button
-                    onClick={() => handleLoadDraft(draft)}
-                    className="admin-draft-btn"
+                    className="admin-published-category"
+                    onClick={() =>
+                      setExpandedCategory(
+                        expandedCategory === group.category ? null : group.category
+                      )
+                    }
                   >
-                    <span className="admin-draft-title">
-                      {draft.title || 'Untitled'}
-                    </span>
-                    <span className="admin-draft-meta">
-                      {CATEGORIES.find((c) => c.value === draft.category)?.label}
-                      {' · '}
-                      {new Date(draft.updatedAt).toLocaleDateString()}
-                    </span>
+                    <span>{expandedCategory === group.category ? '▾' : '▸'}</span>
+                    <span>{group.label}</span>
+                    <span className="admin-published-count">{group.pieces.length}</span>
                   </button>
-                  <button
-                    onClick={() => handleDeleteDraft(draft.id)}
-                    className="admin-draft-delete"
-                    title="Delete draft"
-                  >
-                    ×
-                  </button>
-                </li>
+                  {expandedCategory === group.category && (
+                    <ul className="admin-draft-list">
+                      {group.pieces.map((piece) => (
+                        <li key={piece.slug} className="admin-draft-item">
+                          <button
+                            onClick={() => handleLoadPublished(group.category, piece.slug)}
+                            className="admin-draft-btn"
+                          >
+                            <span className="admin-draft-title">{piece.title}</span>
+                            <span className="admin-draft-meta">{piece.date}</span>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
               ))}
-            </ul>
+            </div>
           )}
         </aside>
 
@@ -338,7 +419,7 @@ export default function Editor() {
               className="admin-btn-primary"
               disabled={publishing}
             >
-              {publishing ? 'Publishing...' : 'Publish'}
+              {publishing ? 'Publishing...' : isEditing ? 'Update' : 'Publish'}
             </button>
           </div>
         </main>

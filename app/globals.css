@@ -644,6 +644,11 @@ footer {
   transition: border-color 0.2s;
 }
 
+.admin-editor select option {
+  background: #1a1a1a;
+  color: var(--text-primary);
+}
+
 .admin-login input:focus,
 .admin-editor input:focus,
 .admin-editor select:focus,
@@ -928,6 +933,73 @@ footer {
 .admin-message.error {
   color: #ef4444;
   background: rgba(239, 68, 68, 0.08);
+}
+
+/* Sidebar tabs */
+
+.admin-tabs {
+  display: flex;
+  gap: 0;
+}
+
+.admin-tab {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: inherit;
+  transition: color 0.15s;
+}
+
+.admin-tab.active {
+  color: var(--text-primary);
+}
+
+.admin-tab:hover {
+  color: var(--text-secondary);
+}
+
+/* Published list */
+
+.admin-published-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.admin-published-group {
+  margin-bottom: 0.25rem;
+}
+
+.admin-published-category {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.375rem 0.5rem;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: color 0.15s;
+  text-align: left;
+}
+
+.admin-published-category:hover {
+  color: var(--text-primary);
+}
+
+.admin-published-count {
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+  margin-left: auto;
 }
 
 @media (max-width: 768px) {

@@ -2,6 +2,7 @@
 
 import { cookies } from 'next/headers';
 import { createHash, timingSafeEqual } from 'crypto';
+import { getPieces, getPiece, type Piece } from '@/lib/content';
 
 const COOKIE_NAME = 'admin-session';
 
@@ -155,4 +156,36 @@ export async function publish(data: {
   }
 
   return { success: true };
+}
+
+export async function getPublished(): Promise<
+  { category: string; label: string; pieces: { slug: string; title: string; date: string }[] }[]
+> {
+  if (!(await isAuthenticated())) return [];
+
+  const categories = [
+    { value: 'blogs' as const, label: 'Blogs' },
+    { value: 'hindi/poetry' as const, label: 'Hindi — काव्य' },
+    { value: 'hindi/prose' as const, label: 'Hindi — गद्य' },
+    { value: 'english/poems' as const, label: 'English — Poems' },
+    { value: 'english/prose' as const, label: 'English — Prose' },
+  ];
+
+  return categories.map((cat) => ({
+    category: cat.value,
+    label: cat.label,
+    pieces: getPieces(cat.value).map((p) => ({
+      slug: p.slug,
+      title: p.title,
+      date: p.date,
+    })),
+  }));
+}
+
+export async function getPublishedPiece(
+  category: string,
+  slug: string
+): Promise<Piece | null> {
+  if (!(await isAuthenticated())) return null;
+  return getPiece(category, slug);
 }
